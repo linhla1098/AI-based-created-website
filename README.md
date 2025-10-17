@@ -1,6 +1,13 @@
+
 # Hệ thống Quản lý Nguồn lực Nhàn rỗi (Idle Resource Management System)
 
 Dự án này là một hệ thống web hoàn chỉnh, bao gồm cả Frontend (Giao diện người dùng) và Backend (Hệ thống máy chủ). Hệ thống được xây dựng nhằm mục đích quản lý, theo dõi và tối ưu hóa việc sử dụng các nguồn lực nhân sự đang trong trạng thái nhàn rỗi (idle) tại FJP.
+
+## 🎥 Video Demo Sản phẩm
+
+[![Xem Video Demo](https://raw.githubusercontent.com/linhla1098/AI-based-created-website/docs/images/Demo_Thumbnail.png)](https://youtu.be/_pRsjYMF9WA)
+
+*Bấm vào ảnh trên để xem video demo chi tiết về các chức năng của hệ thống.*
 
 ## ✨ Tính năng chính
 
