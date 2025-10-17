@@ -1,0 +1,21 @@
+# Use root/root as user/password credentials
+services:
+  db:
+    image: mysql:8.0
+    container_name: idle_resource_mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: idle_resource_db
+      MYSQL_USER: user
+      MYSQL_PASSWORD: password1234
+    ports:
+      - "3306:3306"  # Changed to 3307 to avoid port conflict
+    volumes:
+      - mysql_data:/var/lib/mysql
+    command: --default-authentication-plugin=mysql_native_password
+    # (this is just an example, not intended to be a production configuration)
+
+volumes:
+  mysql_data:
+    driver: local

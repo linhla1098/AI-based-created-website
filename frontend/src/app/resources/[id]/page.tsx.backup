@@ -1,0 +1,502 @@
+'use client';
+
+import { useState } from 'react';
+import { 
+  Box, 
+  Typography, 
+  Button, 
+  Paper, 
+  Chip,
+  Stack,
+  TextField,
+  MenuItem,
+  Switch,
+  FormControlLabel,
+  Divider
+} from '@mui/material';import { useState } from 'react';
+import { 
+  Box, 
+  Typography, 
+  Button, 
+  Paper, 
+  Chip,
+  Stack,
+  TextField,
+  MenuItem,
+  Switch,
+  FormControlLabel,
+  Divider
+} from '@mui/material';
+import { 
+  ArrowBack, 
+  Edit, 
+  Save, 
+  Download,
+  Person,
+  Business,
+  CalendarToday,
+  AttachMoney,
+  Psychology,
+  FilePresent
+} from '@mui/icons-material';
+import DashboardLayout from '@/components/DashboardLayout';
+import { useRouter } from 'next/navigation';
+import { useForm } from 'react-hook-form';
+
+interface ResourceDetail {
+  id: number;
+  employeeId: string;
+  employeeName: string;
+  department: string;
+  idleFromDate: string;
+  status: string;
+  processNote: string;
+  rate: number;
+  skills: string;
+  source: string;
+  isUrgent: boolean;
+  cvFileName?: string;
+  cvFilePath?: string;
+  createdAt: string;
+  updatedAt: string;
+  createdBy: string;
+  updatedBy: string;
+}
+
+const mockResource: ResourceDetail = {
+  id: 1,
+  employeeId: 'EMP001',
+  employeeName: 'Takeshi Yamamoto',
+  department: 'IT',
+  idleFromDate: '2024-01-15',
+  status: 'Open',
+  processNote: 'Available for frontend development project. Has expertise in React and modern JavaScript frameworks. Previous experience with e-commerce platforms.',
+  rate: 4500.00,
+  skills: 'React, TypeScript, Node.js, AWS, Docker, MongoDB, Express.js',
+  source: 'Internal',
+  isUrgent: true,
+  cvFileName: 'takeshi_yamamoto_cv.pdf',
+  cvFilePath: '/uploads/cv-files/takeshi_yamamoto_cv.pdf',
+  createdAt: '2024-01-15T10:30:00Z',
+  updatedAt: '2024-01-20T14:45:00Z',
+  createdBy: 'admin',
+  updatedBy: 'manager_it'
+};
+
+const statusOptions = ['Open', 'In Progress', 'Closed'];
+const sourceOptions = ['Internal', 'External', 'Referral'];
+const departmentOptions = ['IT', 'Marketing', 'Finance', 'HR', 'Operations', 'Sales', 'Legal'];
+
+export default function ResourceDetailPage() {
+  const router = useRouter();
+  const [resource, setResource] = useState<ResourceDetail>(mockResource);
+  const [isEditing, setIsEditing] = useState(false);
+  const { register, handleSubmit, reset, watch } = useForm({
+    defaultValues: resource
+  });
+
+  const onSubmit = (data: ResourceDetail) => {
+    setResource({
+      ...data,
+      updatedAt: new Date().toISOString(),
+      updatedBy: 'current_user'
+    });
+    setIsEditing(false);
+  };
+
+  const handleEdit = () => {
+    setIsEditing(true);
+    reset(resource);
+  };
+
+  const handleCancel = () => {
+    setIsEditing(false);
+    reset(resource);
+  };
+
+  const handleDownloadCV = () => {
+    if (resource.cvFilePath) {
+      // TODO: Implement file download
+      console.log('Downloading CV:', resource.cvFileName);
+    }
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'Open': return '#4CAF50';
+      case 'In Progress': return '#FF9800';
+      case 'Closed': return '#757575';
+      default: return '#757575';
+    }
+  };
+
+  return (
+    <DashboardLayout>
+      <Box>
+        {/* Header */}
+        <Box display="flex" justifyContent="space-between" alignItems="center" mb={3}>
+          <Stack direction="row" spacing={2} alignItems="center">
+            <Button
+              startIcon={<ArrowBack />}
+              onClick={() => router.back()}
+              sx={{ color: '#7B809A' }}
+            >
+              Back
+            </Button>
+            <Typography variant="h4" sx={{ color: '#344767', fontWeight: 'bold' }}>
+              Resource Details
+            </Typography>
+          </Stack>
+          
+          <Stack direction="row" spacing={2}>
+            {!isEditing ? (
+              <Button
+                variant="contained"
+                startIcon={<Edit />}
+                onClick={handleEdit}
+                sx={{
+                  background: 'linear-gradient(135deg, #49A3F1 0%, #1A73E8 100%)',
+                  borderRadius: 2,
+                  textTransform: 'none',
+                }}
+              >
+                Edit
+              </Button>
+            ) : (
+              <>
+                <Button
+                  variant="outlined"
+                  onClick={handleCancel}
+                  sx={{ borderColor: '#7B809A', color: '#7B809A' }}
+                >
+                  Cancel
+                </Button>
+                <Button
+                  variant="contained"
+                  startIcon={<Save />}
+                  onClick={handleSubmit(onSubmit)}
+                  sx={{
+                    background: 'linear-gradient(135deg, #4CAF50 0%, #2E7D32 100%)',
+                    borderRadius: 2,
+                    textTransform: 'none',
+                  }}
+                >
+                  Save
+                </Button>
+              </>
+            )}
+          </Stack>
+        </Box>
+
+        <Box display="flex" gap={3} flexWrap="wrap">
+          {/* Main Information */}  
+          <Box flex="2" minWidth="300px">
+            <Paper sx={{ p: 4, borderRadius: 3, boxShadow: 3, mb: 3 }}>
+              <Typography variant="h6" sx={{ color: '#344767', fontWeight: 'bold', mb: 3 }}>
+                Basic Information
+              </Typography>
+              <Box display="grid" gridTemplateColumns="repeat(auto-fit, minmax(300px, 1fr))" gap={3}>
+                <Box>
+                  <Box display="flex" alignItems="center" mb={2}>
+                    <Person sx={{ color: '#1A73E8', mr: 1 }} />
+                    <Typography variant="body2" sx={{ color: '#7B809A', mr: 2 }}>
+                      Employee ID:
+                    </Typography>
+                    {isEditing ? (
+                      <TextField
+                        {...register('employeeId')}
+                        size="small"
+                        variant="outlined"
+                        fullWidth
+                      />
+                    ) : (
+                      <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+                        {resource.employeeId}
+                      </Typography>
+                    )}
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Box display="flex" alignItems="center" mb={2}>
+                    <Person sx={{ color: '#1A73E8', mr: 1 }} />
+                    <Typography variant="body2" sx={{ color: '#7B809A', mr: 2 }}>
+                      Name:
+                    </Typography>
+                    {isEditing ? (
+                      <TextField
+                        {...register('employeeName')}
+                        size="small"
+                        variant="outlined"
+                        fullWidth
+                      />
+                    ) : (
+                      <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+                        {resource.employeeName}
+                      </Typography>
+                    )}
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Box display="flex" alignItems="center" mb={2}>
+                    <Business sx={{ color: '#1A73E8', mr: 1 }} />
+                    <Typography variant="body2" sx={{ color: '#7B809A', mr: 2 }}>
+                      Department:
+                    </Typography>
+                    {isEditing ? (
+                      <TextField
+                        {...register('department')}
+                        select
+                        size="small"
+                        variant="outlined"
+                        fullWidth
+                      >
+                        {departmentOptions.map((option) => (
+                          <MenuItem key={option} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    ) : (
+                      <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+                        {resource.department}
+                      </Typography>
+                    )}
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Box display="flex" alignItems="center" mb={2}>
+                    <CalendarToday sx={{ color: '#1A73E8', mr: 1 }} />
+                    <Typography variant="body2" sx={{ color: '#7B809A', mr: 2 }}>
+                      Idle From:
+                    </Typography>
+                    {isEditing ? (
+                      <TextField
+                        {...register('idleFromDate')}
+                        type="date"
+                        size="small"
+                        variant="outlined"
+                        fullWidth
+                      />
+                    ) : (
+                      <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+                        {resource.idleFromDate}
+                      </Typography>
+                    )}
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Box display="flex" alignItems="center" mb={2}>
+                    <AttachMoney sx={{ color: '#1A73E8', mr: 1 }} />
+                    <Typography variant="body2" sx={{ color: '#7B809A', mr: 2 }}>
+                      Rate:
+                    </Typography>
+                    {isEditing ? (
+                      <TextField
+                        {...register('rate', { valueAsNumber: true })}
+                        type="number"
+                        size="small"
+                        variant="outlined"
+                        fullWidth
+                        InputProps={{
+                          startAdornment: <Typography>$</Typography>
+                        }}
+                      />
+                    ) : (
+                      <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+                        ${resource.rate.toLocaleString()}
+                      </Typography>
+                    )}
+                  </Box>
+                </Grid>
+                <Grid item xs={12} sm={6}>
+                  <Box display="flex" alignItems="center" mb={2}>
+                    <Typography variant="body2" sx={{ color: '#7B809A', mr: 2 }}>
+                      Source:
+                    </Typography>
+                    {isEditing ? (
+                      <TextField
+                        {...register('source')}
+                        select
+                        size="small"
+                        variant="outlined"
+                        fullWidth
+                      >
+                        {sourceOptions.map((option) => (
+                          <MenuItem key={option} value={option}>
+                            {option}
+                          </MenuItem>
+                        ))}
+                      </TextField>
+                    ) : (
+                      <Typography variant="body1" sx={{ fontWeight: 'medium' }}>
+                        {resource.source}
+                      </Typography>
+                    )}
+                  </Box>
+                </Grid>
+              </Grid>
+            </Paper>
+
+            {/* Skills and Process Note */}
+            <Paper sx={{ p: 4, borderRadius: 3, boxShadow: 3 }}>
+              <Typography variant="h6" sx={{ color: '#344767', fontWeight: 'bold', mb: 3 }}>
+                Details
+              </Typography>
+              <Box mb={3}>
+                <Box display="flex" alignItems="center" mb={2}>
+                  <Psychology sx={{ color: '#1A73E8', mr: 1 }} />
+                  <Typography variant="body2" sx={{ color: '#7B809A' }}>
+                    Skills:
+                  </Typography>
+                </Box>
+                {isEditing ? (
+                  <TextField
+                    {...register('skills')}
+                    multiline
+                    rows={2}
+                    fullWidth
+                    variant="outlined"
+                    placeholder="Enter skills separated by commas"
+                  />
+                ) : (
+                  <Typography variant="body1" sx={{ ml: 4 }}>
+                    {resource.skills}
+                  </Typography>
+                )}
+              </Box>
+              
+              <Divider sx={{ my: 3 }} />
+              
+              <Box>
+                <Typography variant="body2" sx={{ color: '#7B809A', mb: 2 }}>
+                  Process Note:
+                </Typography>
+                {isEditing ? (
+                  <TextField
+                    {...register('processNote')}
+                    multiline
+                    rows={4}
+                    fullWidth
+                    variant="outlined"
+                    placeholder="Enter process note..."
+                  />
+                ) : (
+                  <Typography variant="body1">
+                    {resource.processNote}
+                  </Typography>
+                )}
+              </Box>
+            </Paper>
+          </Grid>
+
+          {/* Status and CV */}
+          <Grid item xs={12} md={4}>
+            <Paper sx={{ p: 4, borderRadius: 3, boxShadow: 3, mb: 3 }}>
+              <Typography variant="h6" sx={{ color: '#344767', fontWeight: 'bold', mb: 3 }}>
+                Status
+              </Typography>
+              <Box mb={3}>
+                {isEditing ? (
+                  <TextField
+                    {...register('status')}
+                    select
+                    fullWidth
+                    variant="outlined"
+                    label="Status"
+                  >
+                    {statusOptions.map((option) => (
+                      <MenuItem key={option} value={option}>
+                        {option}
+                      </MenuItem>
+                    ))}
+                  </TextField>
+                ) : (
+                  <Chip 
+                    label={resource.status} 
+                    sx={{ 
+                      backgroundColor: getStatusColor(resource.status),
+                      color: 'white',
+                      fontWeight: 'medium',
+                      fontSize: '1rem',
+                      height: 40,
+                      px: 2
+                    }}
+                  />
+                )}
+              </Box>
+              
+              <Box>
+                <FormControlLabel
+                  control={
+                    <Switch
+                      {...register('isUrgent')}
+                      checked={isEditing ? watch('isUrgent') : resource.isUrgent}
+                      disabled={!isEditing}
+                      color="error"
+                    />
+                  }
+                  label="Mark as Urgent"
+                />
+              </Box>
+            </Paper>
+
+            {/* CV File */}
+            <Paper sx={{ p: 4, borderRadius: 3, boxShadow: 3 }}>
+              <Typography variant="h6" sx={{ color: '#344767', fontWeight: 'bold', mb: 3 }}>
+                CV File
+              </Typography>
+              {resource.cvFileName ? (
+                <Box>
+                  <Box display="flex" alignItems="center" mb={2}>
+                    <FilePresent sx={{ color: '#1A73E8', mr: 1 }} />
+                    <Typography variant="body2" sx={{ fontWeight: 'medium' }}>
+                      {resource.cvFileName}
+                    </Typography>
+                  </Box>
+                  <Button
+                    variant="outlined"
+                    startIcon={<Download />}
+                    onClick={handleDownloadCV}
+                    fullWidth
+                    sx={{ borderColor: '#1A73E8', color: '#1A73E8' }}
+                  >
+                    Download CV
+                  </Button>
+                </Box>
+              ) : (
+                <Typography variant="body2" sx={{ color: '#7B809A', fontStyle: 'italic' }}>
+                  No CV file uploaded
+                </Typography>
+              )}
+            </Paper>
+
+            {/* Metadata */}
+            <Paper sx={{ p: 4, borderRadius: 3, boxShadow: 3, mt: 3 }}>
+              <Typography variant="h6" sx={{ color: '#344767', fontWeight: 'bold', mb: 3 }}>
+                Record Information
+              </Typography>
+              <Stack spacing={2}>
+                <Box>
+                  <Typography variant="body2" sx={{ color: '#7B809A' }}>
+                    Created:
+                  </Typography>
+                  <Typography variant="body2">
+                    {new Date(resource.createdAt).toLocaleDateString()} by {resource.createdBy}
+                  </Typography>
+                </Box>
+                <Box>
+                  <Typography variant="body2" sx={{ color: '#7B809A' }}>
+                    Last Updated:
+                  </Typography>
+                  <Typography variant="body2">
+                    {new Date(resource.updatedAt).toLocaleDateString()} by {resource.updatedBy}
+                  </Typography>
+                </Box>
+              </Stack>
+            </Paper>
+          </Grid>
+        </Grid>
+      </Box>
+    </DashboardLayout>
+  );
+}
