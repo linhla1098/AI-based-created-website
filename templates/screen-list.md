@@ -1,0 +1,6 @@
+| ID màn hình | Tên Màn hình   | Role có thể sử dụng    | Phân cấp Menu đến màn hình chức năng               | Mô tả các chức năng chính (Liệt kê FR-ID và mô tả ngắn)                                         |
+|-------------|----------------|-----------------------|-----------------------------------------------------|--------------------------------------------------------------------------------------------------|
+| SCR001      | Đăng nhập      | All Users             | Trang chủ > Đăng nhập                               | FR-01: Nhập thông tin đăng nhập<br>FR-02: Xác thực tài khoản<br>FR-03: Quên mật khẩu             |
+| SCR002      | Quản lý người dùng | Admin, HR Manager | Trang chủ > Quản trị hệ thống > Quản lý người dùng  | FR-10: Thêm người dùng mới<br>FR-11: Sửa thông tin người dùng<br>FR-12: Xóa người dùng           |
+| SCR003      | Báo cáo doanh thu | Admin, Kế toán      | Trang chủ > Báo cáo > Báo cáo doanh thu             | FR-20: Xem báo cáo doanh thu theo ngày<br>FR-21: Xuất báo cáo ra Excel/PDF                       |
+| SCR004      | Quản lý sản phẩm  | Admin, Nhân viên kho| Trang chủ > Quản lý kho > Quản lý sản phẩm          | FR-30: Thêm mới sản phẩm<br>FR-31: Sửa/xóa sản phẩm<br>FR-32: Tìm kiếm sản phẩm                  |
