@@ -17,13 +17,22 @@ Hệ thống cung cấp các chức năng mạnh mẽ được phân chia theo v
 
 ## 🚀 Công nghệ sử dụng
 
-*(Vui lòng cập nhật lại cho đúng với công nghệ thực tế của dự án)*
-
-| Phần      | Công nghệ                                                              |
-| :-------- | :--------------------------------------------------------------------- |
-| **Frontend**  | `React.js`, `HTML5`, `CSS3`, `JavaScript (ES6+)` |
-| **Backend**   | `Node.js`, `Express.js`, `MongoDB`                  |
-| **Công cụ** | `Git`, `npm`, `Visual Studio Code`                                     |
+| Phần | Công nghệ | Phiên bản | Mục đích |
+|-------|------------|---------|---------|
+| Frontend Framework | Next.js | 14.0.0 | React-based web framework for SSR and routing |
+| UI Library | Material-UI | 5.14.0 | Component library for consistent UI/UX |
+| UI Styling | TailwindCSS | 3.3.0 | Utility-first CSS framework |
+| State Management | React Query | 4.0.0 | Server state and cache management |
+| Form Management | React Hook Form | 7.45.0 | Form handling and validation |
+| Schema Validation | Zod | 3.21.0 | Type-safe form and API validation |
+| API Client | Axios | 1.4.0 | HTTP client for API calls |
+| Backend Framework | NestJS | 10.0.0 | Scalable Node.js server framework |
+| ORM | TypeORM | 0.3.17 | Database ORM for TypeScript |
+| Database | MySQL | 8.0 | Relational database |
+| Authentication | Passport.js + JWT | 0.6.0 | Authentication middleware |
+| File Storage | AWS S3 | - | CV file storage |
+| Logging | Winston | 3.10.0 | Application logging |
+| Monitoring | Prometheus + Grafana | - | Performance monitoring |
 
 ## 🛠️ Cài đặt và Khởi chạy
 
